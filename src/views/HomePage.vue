@@ -1,10 +1,22 @@
 <script setup>
-import { ref } from 'vue'
-const title = ref('Hello There ✋')
+import { onMounted } from 'vue'
+// const title = ref('Hello There 👋')
+import MainCards from '@/components/MainCards.vue'
+import MainPagination from '@/components/MainPagination.vue'
+import useAPI from '@/composables/useAPI'
+
+const { getEmployees, loading } = useAPI()
+
+onMounted(async () => {
+  await getEmployees()
+})
 </script>
 
 <template>
-  <main class="flex min-h-screen items-center justify-center">
-    <h1 class="text-6xl font-thin text-slate-800">{{ title }}</h1>
-  </main>
+  <p v-if="loading">LOADING...</p>
+  <div v-else>
+    <MainCards></MainCards>
+    <MainPagination></MainPagination>
+  </div>
+  
 </template>
